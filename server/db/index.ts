@@ -15,3 +15,19 @@ export async function getAllLocations() {
 
   return locations as Location[]
 }
+
+export async function getEventsByDay(day: JSON) {
+  const events = await connection('events')
+    .join('locations', 'events.location_id', 'locations.id')
+    .where({ day })
+    .select(
+      'event.id',
+      'events.day',
+      'events.time',
+      'events.name as eventName',
+      'events.description',
+      'events.location_id as locationName',
+    )
+
+  return events
+}
