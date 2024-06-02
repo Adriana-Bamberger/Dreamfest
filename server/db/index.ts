@@ -1,7 +1,7 @@
 import knexFile from './knexfile.js'
 import knex from 'knex'
 import type { Location, LocationData } from '../../models/Location.ts'
-import type {
+import {
   Event,
   EventWithLocation,
   EventData,
@@ -42,4 +42,12 @@ export async function getEventsByDay(day: JSON) {
 export async function getLocationById(id: number) {
   const location = await connection('locations').where({ id }).first()
   return location as Location
+}
+
+export async function updateLocation(updatedLocation: Location) {
+  const { id, name, description } = updatedLocation
+  const amount = await connection('loactions')
+    .where({ id })
+    .update({ name, description })
+  return amount
 }
