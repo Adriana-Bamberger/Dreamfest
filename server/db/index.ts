@@ -1,7 +1,14 @@
 import knexFile from './knexfile.js'
 import knex from 'knex'
 import type { Location, LocationData } from '../../models/Location.ts'
-import type { Event, EventWithLocation, EventData } from '../../models/Event.ts'
+import type {
+  Event,
+  EventWithLocation,
+  EventData,
+  changeFromEventData,
+  changeToEvent,
+  changeFromEvent,
+} from '../../models/Event.ts'
 
 type Environment = 'production' | 'test' | 'development'
 
@@ -29,5 +36,5 @@ export async function getEventsByDay(day: JSON) {
       'events.location_id as locationName',
     )
 
-  return events
+  return events as Event[]
 }
