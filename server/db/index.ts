@@ -39,7 +39,7 @@ export async function getEventsByDay(day: JSON) {
   return events as Event[]
 }
 
-export async function getLocationsById(id: number) {
+export async function getLocationById(id: number) {
   const location = await connection('locations').where({ id }).first()
   return location as Location
 }

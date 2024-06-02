@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-  const { id } = req.params
+  const id = Number(req.params.id)
   try {
     // // DONE: Get the location based on its id and replace this viewData
     const location = await db.getLocationById(id)
