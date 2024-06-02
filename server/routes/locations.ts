@@ -31,8 +31,12 @@ router.patch('/:id', async (req, res, next) => {
     const id = Number(req.params.id)
     const { name, description } = req.body
     // TODO: call db.updateLocation with these details
-    // howwwww
-    res.sendStatus(204)
+    const amount = await db.updateLocation({ id, name, description })
+    if (count) {
+      res.status(200)
+    } else {
+      res.status(404)({message: '404 not found'})
+    }
   } catch (e) {
     next(e)
   }
