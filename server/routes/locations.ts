@@ -1,7 +1,6 @@
 import express from 'express'
-
+//imports eveything from the database
 import * as db from '../db/index.ts'
-import LocationsList from '../../client/components/LocationsList.tsx'
 
 const router = express.Router()
 
@@ -19,13 +18,8 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params
   try {
-    // TODO: Get the location based on its id and replace this viewData
-    const location = {
-      id: id,
-      name: 'TangleStage',
-      description:
-        'Not the biggest stage, but perhaps the most hip. Not the biggest stage, but perhaps the most hip. Not the biggest stage, but perhaps the most hip.',
-    }
+    // // DONE: Get the location based on its id and replace this viewData
+    const location = await db.getLocationById(id)
     res.json(location)
   } catch (e) {
     next(e)
