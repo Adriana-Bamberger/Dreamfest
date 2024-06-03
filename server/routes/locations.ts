@@ -26,11 +26,13 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+// Done: call db.updateLocation with these details
+// Damm this took awhile lol, always forgetting the .json haha
+// acording to the docs I shouldn't need the 500 message but I've added just incase.
 router.patch('/:id', async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     const { name, description } = req.body
-    // TODO: call db.updateLocation with these details
     const amount = await db.updateLocation({ id, name, description })
     if (amount) {
       res.status(200).json({ updated: amount })
