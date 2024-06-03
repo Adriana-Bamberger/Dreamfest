@@ -57,4 +57,5 @@ export async function addNewEvent(eventData: EventData) {
     {...changeFromEventData(eventData) },
     ['id'],
   )
+  return id
 }
