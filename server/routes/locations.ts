@@ -39,6 +39,7 @@ router.patch('/:id', async (req, res, next) => {
     }
   } catch (e) {
     next(e)
+    res.status(500).json({ message: 'Error at patch' })
   }
 })
 
