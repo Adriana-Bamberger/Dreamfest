@@ -69,7 +69,7 @@ export async function getEvById(id: number) {
   const newEvent = await connection('events').where({ id }).first()
   return changeToEvent(newEvent)
 }
-// Thank you Alex for the spreading recomendation.
+// got the spreading trick from alex, works great!
 export async function changeEvent(changeEvent: Event) {
   const { id, ...newEventData } = changeFromEvent(changeEvent)
   const amount = await connection('events')

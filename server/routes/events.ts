@@ -74,7 +74,7 @@ router.patch('/:id', async (req, res, next) => {
     if (amount) {
       res.status(200).json({ changed: amount })
     } else {
-      res.status(404).json({ message: '404 not found' })
+      res.status(404).json({ message: '404 no event has matching id' })
     }
   } catch (e) {
     next(e)
