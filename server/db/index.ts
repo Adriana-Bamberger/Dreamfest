@@ -46,7 +46,7 @@ export async function getLocationById(id: number) {
 
 export async function updateLocation(updatedLocation: Location) {
   const { id, name, description } = updatedLocation
-  const amount = await connection('loactions')
+  const amount = await connection('locations')
     .where({ id })
     .update({ name, description })
   return amount
@@ -54,13 +54,18 @@ export async function updateLocation(updatedLocation: Location) {
 
 export async function addNewEvent(eventData: EventData) {
   const id = await connection('events').insert(
-    {...changeFromEventData(eventData) },
+    { ...changeFromEventData(eventData) },
     ['id'],
   )
   return id
 }
 
-export async function deleteEvent(id:number) {
-  const amount = await connection ('event').where({id}).delete()
+export async function deleteEvent(id: number) {
+  const amount = await connection('event').where({ id }).delete()
   return amount
+}
+
+export async function getEvById(id: number) {
+  const newEvent = await connection('events').where({ id }).first()
+  return changeToEvent(newEvent)
 }

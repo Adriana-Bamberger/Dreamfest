@@ -24,8 +24,8 @@ router.post('/', async (req, res, next) => {
     next(e)
   }
 })
- // DONE: DELETE the event with this matching ID
- // Instructions don't call for status, but for incase it's best prastic apparently?
+// DONE: DELETE the event with this matching ID
+// Instructions don't call for status, but for incase it's best prastic apparently?
 router.delete('/:id', async (req, res, next) => {
   try {
     const id = Number(req.params.id)
@@ -36,23 +36,27 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+// TODO: Replace event below with the event from the database using its id
+// NOTE: It should have the same shape as this one
+// TODO: if there's no event with that id, respond with a 404 instead
 router.get('/:id', async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    // TODO: Replace event below with the event from the database using its id
-    // NOTE: It should have the same shape as this one
-    const event = {
-      id: id,
-      locationId: 1,
-      day: 'friday',
-      time: '2pm - 3pm',
-      name: 'Slushie Apocalypse I',
-      description:
-        'This is totally a description of this really awesome event that will be taking place during this festival at the Yella Yurt. Be sure to not miss the free slushies cause they are rad!',
+    // const event = {
+    //   id: id,
+    //   locationId: 1,
+    //   day: 'friday',
+    //   time: '2pm - 3pm',
+    //   name: 'Slushie Apocalypse I',
+    //   description:
+    //     'This is totally a description of this really awesome event that will be taking place during this festival at the Yella Yurt. Be sure to not miss the free slushies cause they are rad!',
+    // }
+    const newEvent = await db.getEvById(id)
+    if (newEvent) {
+      res.status(200).json(newEvent)
+    } else {
+      res.status(404).json({ message: '404 not found' })
     }
-    // TODO: if there's no event with that id, respond with a 404 instead
-
-    res.json(event)
   } catch (e) {
     next(e)
   }
