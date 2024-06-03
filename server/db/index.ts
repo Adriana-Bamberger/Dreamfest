@@ -51,3 +51,10 @@ export async function updateLocation(updatedLocation: Location) {
     .update({ name, description })
   return amount
 }
+
+export async function addNewEvent(eventData: EventData) {
+  const id = await connection('events').insert(
+    {...changeFromEventData(eventData) },
+    ['id'],
+  )
+}
