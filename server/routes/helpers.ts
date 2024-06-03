@@ -22,7 +22,7 @@ export function capitalise(name: string) {
  */
 export function validateDay(
   day: string | undefined,
-  days: string[] = eventDays
+  days: string[] = eventDays,
 ) {
   // Use the first day as the default value if the day argument isn't valid
   if (typeof day !== 'string') return days[0]

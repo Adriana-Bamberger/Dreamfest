@@ -1,9 +1,8 @@
 import knexFile from './knexfile.js'
 import knex from 'knex'
-import type { Location, LocationData } from '../../models/Location.ts'
+import type { Location } from '../../models/Location.ts'
 import {
   Event,
-  EventWithLocation,
   EventData,
   changeFromEventData,
   changeToEvent,
@@ -16,19 +15,18 @@ const environment = (process.env.NODE_ENV || 'development') as Environment
 const config = knexFile[environment]
 export const connection = knex(config)
 
+// Done: replace this with your knex query
 export async function getAllLocations() {
-  // Done: replace this with your knex query
   const locations = await connection('locations').select()
-
   return locations as Location[]
 }
 
-export async function getEventsByDay(day: JSON) {
-  const events = await connection('events')
-    .join('locations', 'events.location_id', 'locations.id')
+export async function getEventsByDay(day: string) {
+  const events = await connection('locations')
+    .join('events', 'events.location_id', 'locations.id')
     .where({ day })
     .select(
-      'event.id',
+      'event.id as id',
       'events.day',
       'events.time',
       'events.name as eventName',
