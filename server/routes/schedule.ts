@@ -9,8 +9,8 @@ const router = express.Router()
 router.get('/:day', async (req, res, next) => {
   try {
     const day = validateDay(req.params.day)
-    const data = await db.getEventsByDay(day)
-    res.json({ day, data })
+    const events = await db.getEventsByDay(day)
+    res.json({ events })
   } catch (e) {
     next(e)
   }

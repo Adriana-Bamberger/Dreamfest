@@ -60,7 +60,7 @@ export async function addNewEvent(eventData: EventData) {
 }
 
 export async function deleteEvent(id: number) {
-  const amount = await connection('event').where({ id }).delete()
+  const amount = await connection('events').where({ id }).delete()
   return amount
 }
 
