@@ -3,6 +3,7 @@ import knex from 'knex'
 import type { Location } from '../../models/Location.ts'
 import {
   Event,
+  EventWithLocation,
   EventData,
   changeFromEventData,
   changeToEvent,
@@ -22,19 +23,19 @@ export async function getAllLocations() {
 }
 
 export async function getEventsByDay(day: string) {
-  const events = await connection('locations')
-    .join('events', 'locations.id', 'events.location_id')
+  const events = await connection('events')
+    .join('locations', 'locations.id', 'events.location_id')
     .where({ day })
     .select(
       'events.id as id',
-      'events.day',
-      'events.time',
+      'events.day as day',
+      'events.time as time',
       'events.name as eventName',
-      'events.description',
+      'events.description as description',
       'locations.name as locationName',
     )
 
-  return events as Event[]
+  return events
 }
 
 export async function getLocationById(id: number) {
