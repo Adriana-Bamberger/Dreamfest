@@ -36,9 +36,9 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
-// TODO: Replace event below with the event from the database using its id
+// DONE: Replace event below with the event from the database using its id
 // NOTE: It should have the same shape as this one
-// TODO: if there's no event with that id, respond with a 404 instead
+// DONE: if there's no event with that id, respond with a 404 instead
 router.get('/:id', async (req, res, next) => {
   try {
     const id = Number(req.params.id)
@@ -61,17 +61,21 @@ router.get('/:id', async (req, res, next) => {
     next(e)
   }
 })
-
+// DONE: UPDATE the event in the db with the matching ID using these details,
+// if no event has a matching id, respond with a 404 instead
 router.patch('/:id', async (req, res, next) => {
   try {
     const { name, description, time } = req.body
     const id = Number(req.body.id)
     const day = validateDay(req.body.day)
     const locationId = Number(req.body.locationId)
-
-    // TODO: UPDATE the event in the db with the matching ID using these details,
-    // if no event has a matching id, respond with a 404 instead
-    res.sendStatus(204)
+    const updateEvent = { id, locationId, day, time, name, description }
+    const amount = await db.changeEvent(updateEvent)
+    if (amount) {
+      res.status(200).json({ changed: amount })
+    } else {
+      res.status(404).json({ message: '404 not found' })
+    }
   } catch (e) {
     next(e)
   }
