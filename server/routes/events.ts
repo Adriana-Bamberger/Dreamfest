@@ -5,7 +5,7 @@ import * as db from '../db/index.ts'
 const router = express.Router()
 export default router
 
-// TODO: call your new db.addNewEvent function and use the returned ID
+// Done: call your new db.addNewEvent function and use the returned ID
 router.post('/', async (req, res, next) => {
   try {
     const { name, description, time, locationId } = req.body
@@ -24,11 +24,13 @@ router.post('/', async (req, res, next) => {
     next(e)
   }
 })
-
+ // DONE: DELETE the event with this matching ID
+ // Instructions don't call for status, but for incase it's best prastic apparently?
 router.delete('/:id', async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    // TODO: DELETE the event with this matching ID
+    await db.deleteEvent(id)
+    res.sendStatus(200)
   } catch (e) {
     next(e)
   }
