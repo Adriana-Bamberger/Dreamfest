@@ -17,21 +17,21 @@ export const connection = knex(config)
 
 // Done: replace this with your knex query
 export async function getAllLocations() {
-  const locations = await connection('locations').select()
+  const locations = await connection('locations')
   return locations as Location[]
 }
 
 export async function getEventsByDay(day: string) {
   const events = await connection('locations')
-    .join('events', 'events.location_id', 'locations.id')
+    .join('events', 'locations.id', 'events.location_id')
     .where({ day })
     .select(
-      'event.id as id',
+      'events.id as id',
       'events.day',
       'events.time',
       'events.name as eventName',
       'events.description',
-      'events.location_id as locationName',
+      'locations.name as locationName',
     )
 
   return events as Event[]
