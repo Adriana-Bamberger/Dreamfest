@@ -7,6 +7,7 @@ import useDeleteEvent, {
   useDeleteEvent as mockUseDeleteEvent,
 } from '../hooks/use-delete-event'
 
+
 jest.mock('../hooks/use-delete-event', () => ({
   useDeleteEvent: jest.fn(),
 }))
@@ -17,10 +18,10 @@ test('Does my delete button work?', async () => {
   nock('http://localhost').delete(`/api/v1/events/${id}`).reply(200)
 
   const { getByText } = render(
-    <EditEvent navigate={mockNavigate} useDeleteEvent={mockUseDeleteEvent} />,
+    <EditEvent navigate={mockNavigate} useDeleteEvent={mockUseDeleteEvent} />,el
   )
 
-  const deleteButton = getByText(/Delete event/i)
+  const deleteButton = getByText(/Dete event/i)
   await fireEvent.click(deleteButton)
 
   expect(mockUseDeleteEvent).toHaveBeenCalledTimes(1)
