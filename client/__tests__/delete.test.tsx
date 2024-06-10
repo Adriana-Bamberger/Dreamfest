@@ -1,13 +1,14 @@
-import { setupApp } from './setup'
+// @vitest-environment jsdom
+import { setupApp } from './setup.tsx'
 import { beforeAll, describe, it, expect } from 'vitest'
 import nock from 'nock'
 
-//use the besfore all daph told us about
+//Opening nock from Daph's hivemind
 beforeAll(() => {
   nock.disableNetConnect()
 })
 
-//Setting up our fake event.
+//Setting up our fake data
 const event = {
   id: 1,
   locationId: 1,
@@ -18,42 +19,38 @@ const event = {
     'This event will be taking place at the TangleStage. Be sure to not miss the free slushies cause they are rad!',
 }
 
-describe('Our Edit Event Page', () => {
+// Test Header
+describe('The Edit Event Page', () => {
   // Test pt 1
-  it('go to the matching event when clicked on the route link', async () => {
-    //Setting up
+  it('should get an event when going to specific route', async () => {
     const scope = nock('http://localhost')
       .get('/api/v1/events/1')
       .reply(200, event)
-    const screen = setupApp('/events/1/edit')
-    const heading = await screen.findAllByRole('heading', { level: 2 })
 
-    //Expect
+    const screen = setupApp('/events/1/edit')
+    const heading = await screen.findByRole('heading', { level: 2 })
+    // Expects
     expect(heading.textContent).toContain('Test Event')
     expect(heading).toBeVisible()
 
     expect(scope.isDone()).toBe(true)
   })
   // Test pt 2
-  it('deleate event on button click', async () => {
-    //Setting up
+  it('should delete an event when button is clicked', async () => {
     const scope = nock('http://localhost')
-      .get('/api/v1/events/1')
+      .get('/api/v1/events/1') // backend api.
       .reply(200, event)
     const { user, ...screen } = setupApp('/events/1/edit')
-    const button = await screen.findAllByRole('button', {
-      name: 'Delete event',
-    })
-    //Expect
+    const button = await screen.findByRole('button', { name: 'Delete event' })
+    // Expects
     expect(button).toBeVisible()
     expect(scope.isDone()).toBe(true)
-
+    // Test pt 2.2
     const deleteScope = nock('http://localhost')
       .delete('/api/v1/events/1')
       .reply(201)
-
     await user.click(button)
-    //Expect
+    // Expects
     expect(deleteScope.isDone()).toBe(true)
   })
 })
