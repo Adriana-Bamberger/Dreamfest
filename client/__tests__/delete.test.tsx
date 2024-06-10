@@ -1,29 +1,59 @@
-import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
-import { useNavigate } from 'react-router-dom'
-import EditEvent from '../components/EditEvent'
+import { setupApp } from './setup'
+import { beforeAll, describe, it, expect } from 'vitest'
 import nock from 'nock'
-import useDeleteEvent, {
-  useDeleteEvent as mockUseDeleteEvent,
-} from '../hooks/use-delete-event'
 
+//use the besfore all daph told us about
+beforeAll(() => {
+  nock.disableNetConnect()
+})
 
-jest.mock('../hooks/use-delete-event', () => ({
-  useDeleteEvent: jest.fn(),
-}))
+//Setting up our fake event.
+const event = {
+  id: 1,
+  locationId: 1,
+  day: 'friday',
+  time: '2pm - 3pm',
+  name: 'Test Event',
+  description:
+    'This event will be taking place at the TangleStage. Be sure to not miss the free slushies cause they are rad!',
+}
 
-test('Does my delete button work?', async () => {
-  const mockNavigate = jest.fn()
-  const id = 1
-  nock('http://localhost').delete(`/api/v1/events/${id}`).reply(200)
+describe('Our Edit Event Page', () => {
+  // Test pt 1
+  it('go to the matching event when clicked on the route link', async () => {
+    //Setting up
+    const scope = nock('http://localhost')
+      .get('/api/v1/events/1')
+      .reply(200, event)
+    const screen = setupApp('/events/1/edit')
+    const heading = await screen.findAllByRole('heading', { level: 2 })
 
-  const { getByText } = render(
-    <EditEvent navigate={mockNavigate} useDeleteEvent={mockUseDeleteEvent} />,el
-  )
+    //Expect
+    expect(heading.textContent).toContain('Test Event')
+    expect(heading).toBeVisible()
 
-  const deleteButton = getByText(/Dete event/i)
-  await fireEvent.click(deleteButton)
+    expect(scope.isDone()).toBe(true)
+  })
+  // Test pt 2
+  it('deleate event on button click', async () => {
+    //Setting up
+    const scope = nock('http://localhost')
+      .get('/api/v1/events/1')
+      .reply(200, event)
+    const { user, ...screen } = setupApp('/events/1/edit')
+    const button = await screen.findAllByRole('button', {
+      name: 'Delete event',
+    })
+    //Expect
+    expect(button).toBeVisible()
+    expect(scope.isDone()).toBe(true)
 
-  expect(mockUseDeleteEvent).toHaveBeenCalledTimes(1)
-  expect(mockNavigate).toHaveBeenCalledWith('/schedule/friday')
+    const deleteScope = nock('http://localhost')
+      .delete('/api/v1/events/1')
+      .reply(201)
+
+    await user.click(button)
+    //Expect
+    expect(deleteScope.isDone()).toBe(true)
+  })
 })
