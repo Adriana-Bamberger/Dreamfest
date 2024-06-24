@@ -1,5 +1,5 @@
 import { describe, beforeEach, beforeAll, it, expect } from 'vitest'
-import { connection, getEventsForDay } from '../index.ts'
+import { connection, getEventsByDay } from '../index.ts'
 
 beforeAll(async () => {
   await connection.migrate.latest()
@@ -11,7 +11,7 @@ beforeEach(async () => {
 
 describe('schedule', () => {
   it('has a bunch of events', async () => {
-    const data = await getEventsForDay('friday')
+    const data = await getEventsByDay('friday')
     expect(data).toMatchInlineSnapshot(`
       [
         {
