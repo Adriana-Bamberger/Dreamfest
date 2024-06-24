@@ -22,8 +22,7 @@ header {
   background-color: #000724;
   width: 100%;
 }
-
-a:link,
+pm run a:link,
 a:visited {
   color: #000724;
   text-decoration: none;

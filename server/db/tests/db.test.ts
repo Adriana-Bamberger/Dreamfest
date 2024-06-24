@@ -1,5 +1,7 @@
-import { describe, beforeEach, beforeAll, it, expect } from 'vitest'
+import { describe, beforeEach, beforeAll, it, expect, test } from 'vitest'
 import { connection, getEventsByDay } from '../index.ts'
+import request from 'supertest'
+import server from '../../server.ts'
 
 beforeAll(async () => {
   await connection.migrate.latest()
@@ -39,4 +41,15 @@ describe('schedule', () => {
       ]
     `)
   })
+})
+
+test("When deleted no longer found in db /api/v1/events'", async () => {
+  // Call the delete
+  const response = await request(server).delete('/api/v1/events/1')
+  // Expect it finds it and does the thing
+  expect(response.statusCode).toBe(201)
+  // Call the same one
+  const newResponse = await request(server).get('/api/v1/events/1')
+  //Cross-your-fingers-hope-to-die-stick-a-cup-cake-in-your-eye that it's not in the db anymore
+  expect(newResponse.statusCode).toBe(404)
 })
