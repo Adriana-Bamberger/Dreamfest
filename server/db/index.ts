@@ -65,14 +65,17 @@ export async function deleteEvent(id: number) {
 }
 
 export async function getEvById(id: number) {
-  const newEvent = await connection('events').where({ id }).first()
-  return changeToEvent(newEvent)
+  const newEvent = await connection('events')
+    .where({ id })
+    .select('events.day as day')
+    .first()
+  return newEvent as Event
 }
 // got the spreading trick from alex, works great!
-export async function changeEvent(changeEvent: Event) {
-  const { id, ...newEventData } = changeFromEvent(changeEvent)
-  const amount = await connection('events')
-    .where({ id })
-    .update({ ...newEventData })
-  return amount
-}
+// export async function changeEvent(changeEvent: Event) {
+//   const { id, ...newEventData } = changeFromEvent(changeEvent)
+//   const amount = await connection('events')
+//     .where({ id })
+//     .update({ ...newEventData })
+//   return amount
+// }

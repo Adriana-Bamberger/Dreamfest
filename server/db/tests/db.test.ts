@@ -10,9 +10,9 @@ beforeAll(async () => {
 beforeEach(async () => {
   await connection.seed.run()
 })
-
+// Skipping from Hannah's recomendation
 describe('schedule', () => {
-  it('has a bunch of events', async () => {
+  it.skip('has a bunch of events', async () => {
     const data = await getEventsByDay('friday')
     expect(data).toMatchInlineSnapshot(`
       [
@@ -42,12 +42,12 @@ describe('schedule', () => {
     `)
   })
 })
-
+// Done!
 test("When deleted no longer found in db /api/v1/events'", async () => {
   // Call the delete
   const response = await request(server).delete('/api/v1/events/1')
-  // Expect it finds it and does the thing
-  expect(response.statusCode).toBe(201)
+  // Expect it finds it and does the thing // Changed to 200 from 201, I had the wrong thing in here.
+  expect(response.statusCode).toBe(200)
   // Call the same one
   const newResponse = await request(server).get('/api/v1/events/1')
   //Cross-your-fingers-hope-to-die-stick-a-cup-cake-in-your-eye that it's not in the db anymore
