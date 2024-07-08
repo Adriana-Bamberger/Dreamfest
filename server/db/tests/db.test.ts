@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, beforeEach, beforeAll, it, expect, test } from 'vitest'
 import { connection, getEventsByDay } from '../index.ts'
 import request from 'supertest'
