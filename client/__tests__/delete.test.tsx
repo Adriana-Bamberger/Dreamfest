@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { setupApp } from './setup.tsx'
 import { beforeAll, describe, it, expect } from 'vitest'
 import nock from 'nock'
