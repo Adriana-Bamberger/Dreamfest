@@ -1,4 +1,4 @@
-# DreamFest
+# This README is the one supplied to us during camp. I have yet to go through and update it to neatly explain what we did, used, and learned.
 
 Dreamfest is a music festival, and the planning team has already built the UI and the routes, as well as having designed and seeded the initial database tables. We'll implement the database functions to be used from the routes, allowing the planning team to manage locations and events.
 
