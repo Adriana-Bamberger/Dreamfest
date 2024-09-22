@@ -1,6 +1,11 @@
-# This README is the one supplied to us during Dev Academy bootcamp. I have yet to go through and update it to neatly explain what we did, used, and learned.
+Dreamfest is a music festival's website,
+My Dev Academy senior devs built the UI and the routes, as well as having designed and seeded the initial database tables. We implemented the database functions to be used from the routes, allowing the imaginary planning team to manage locations and events.
 
-Dreamfest is a music festival, and the planning team has already built the UI and the routes, as well as having designed and seeded the initial database tables. We'll implement the database functions to be used from the routes, allowing the planning team to manage locations and events.
+** Set Up **
+npm install
+npm run knex migrate:latest
+npm run knex seed:run
+npm run dev
 
 <details>
   <summary>Full overview</summary>
